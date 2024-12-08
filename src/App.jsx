@@ -43,29 +43,38 @@ function App() {
       published: false,
     },
   ]
-  const filterPost = posts.filter((post)=> post.published === true)
+  const [filterPost, setpublishedPost] = useState  (posts.filter((post)=> post.published === true) )
 
-  const [post, setPost] =useState([]);
-  const [newtitle,setnewTitle] = useState("");
-  const addPost =()=>{
-    function haddlechange(e){
+  const [title, setTitle] = useState('')
+   
+    function addPost(e){
       e.preventDefault()
+
+      const addedPost = {
+        id: 23,
+        title,
+        image: undefined,
+        content : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit animi unde quasi enim non esse ratione voluptas voluptate, officiis veritatis magni blanditiis possimus nobis cum id inventore corporis deserunt hic',
+        tags: [],
+        published : true
+      }
+      setpublishedPost([...filterPost, addedPost])
     }
-    setPost([...post,newtitle]);
-  };
 
   return (
     <>
-    <form className='form'>
-      <input type="text" value={newtitle} onChange={(e)=>setnewTitle(e.target.value)} />
-      <input type="submit" value="add post" className='submit' onClick={addPost} />
-    </form>
+      <div className='container'>
+        <form onSubmit={addPost} className='form'>
+          <input type="text" value={title} onChange={(e) =>setTitle(e.target.value)} />
+          <input type="submit" value="add post"  />
+        </form>
+      </div>
       <div className='container'>
         <div className='row'>
           {filterPost.map((post)=>(
             <div key={post.id} className='col'>
               <div className='card'>
-                <img className='image' src={post.image} />
+                <img className='image'  src={post.image || placeholder} />
                 <h1>{post.title}</h1>
                 <p>{post.content}</p>
                 <p>{post.tags.join(" ")}</p>
